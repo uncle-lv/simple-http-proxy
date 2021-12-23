@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -81,12 +82,12 @@ func copyHeader(dst, src http.Header) {
 }
 
 func main() {
-	port := flag.String("port", "8080", "The port of the proxy server")
+	port := flag.Int("port", 8080, "The port of the proxy server")
 	flag.Parse()
 	p := &proxy{}
 
 	logger.Info("Starting proxy server on port: ", *port)
-	if err := http.ListenAndServe(":"+*port, p); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", *port), p); err != nil {
 		logger.Fatal(err)
 	}
 }
